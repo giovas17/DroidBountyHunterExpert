@@ -15,16 +15,16 @@
         android:text="Mensaje..."/>
 
     <Button
-        android:id="@+id/buttonAgregar"
+        android:id="@+id/buttonCapturar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Capturar"/>
+        android:text="@string/boton_capturar"/>
 
     <Button
         android:id="@+id/buttonEliminar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Eliminar"/>
+        android:text="@string/boton_eliminar"/>
 
 </LinearLayout>
