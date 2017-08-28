@@ -70,7 +70,7 @@ public class Home extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Home.this, Agregar.class);
-                startActivity(intent);
+                startActivityForResult(intent,0);
             }
         });
 
@@ -86,17 +86,25 @@ public class Home extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent = null;
         if (item.getItemId() == R.id.menu_agregar) {
-            Intent intent = new Intent(this, Agregar.class);
-            startActivity(intent);
-            return true;
+            intent = new Intent(this, Agregar.class);
+        }else if (item.getItemId() == R.id.menu_logeliminacion){
+            intent = new Intent(this,LogEliminacion.class);
         }
-
+        startActivity(intent);
         return super.onOptionsItemSelected(item);
     }
 
     public void UpdateLists(int index){
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setCurrentItem(index);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UpdateLists(resultCode);
     }
 
 
