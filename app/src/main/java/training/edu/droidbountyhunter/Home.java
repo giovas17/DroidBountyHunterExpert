@@ -149,6 +149,8 @@ public class Home extends AppCompatActivity {
                     intent.putExtra("title", fugitivo.getName());
                     intent.putExtra("mode", mode);
                     intent.putExtra("id", fugitivo.getId());
+                    // se agrega el parametro para la foto
+
                     startActivityForResult(intent,mode);
                 }
             });

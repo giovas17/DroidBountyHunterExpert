@@ -22,7 +22,7 @@ public class DBProvider {
     /** --------------------------------- Nombre de Base de Datos -------------------------------------**/
     private static final String DataBaseName = "DroidBountyHunterDataBase";
     /** --------------------------------- Version de Base de Datos ---------------------------------**/
-    private static final int version = 2;
+    private static final int version = 3;
     /** --------------------------------- Tablas y Campos ---------------------------------**/
     private static final String TABLE_NAME = "fugitivos";
     private static final String COLUMN_NAME_ID = "id";
@@ -30,10 +30,12 @@ public class DBProvider {
     private static final String COLUMN_NAME_STATUS = "status";
     private static final String TABLE_NAME_LOG = "Log";
     private static final String COLUMN_NAME_DATE = "Fecha";
+    private static final String COLUMN_NAME_PHOTO = "photo";
     /** --------------------------------- Declaración de Tablas ----------------------------------**/
     private static final String TFugitivos = "CREATE TABLE " + TABLE_NAME + " (" +
             COLUMN_NAME_ID + " INTEGER PRIMARY KEY NOT NULL, " +
             COLUMN_NAME_NAME + " TEXT NOT NULL, " +
+            COLUMN_NAME_PHOTO + " TEXT, " +
             COLUMN_NAME_STATUS + " INTEGER, " +
             "UNIQUE (" + COLUMN_NAME_NAME + ") ON CONFLICT REPLACE);";
 
@@ -97,7 +99,8 @@ public class DBProvider {
                 int id = dataCursor.getInt(dataCursor.getColumnIndex(COLUMN_NAME_ID));
                 String name = dataCursor.getString(dataCursor.getColumnIndex(COLUMN_NAME_NAME));
                 String status = dataCursor.getString(dataCursor.getColumnIndex(COLUMN_NAME_STATUS));
-                fugitivos.add(new Fugitivo(id,name,status));
+                String photo = dataCursor.getString(dataCursor.getColumnIndex(COLUMN_NAME_PHOTO));
+                fugitivos.add(new Fugitivo(id,name,status,photo));
             }
         }
         close();
@@ -108,6 +111,7 @@ public class DBProvider {
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME_NAME, fugitivo.getName());
         values.put(COLUMN_NAME_STATUS, fugitivo.getStatus());
+        values.put(COLUMN_NAME_PHOTO, fugitivo.getPhoto());
         open();
         database.insert(TABLE_NAME,null,values);
         close();
@@ -118,6 +122,7 @@ public class DBProvider {
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME_NAME, fugitivo.getName());
         values.put(COLUMN_NAME_STATUS, fugitivo.getStatus());
+        values.put(COLUMN_NAME_PHOTO, fugitivo.getPhoto());
         database.update(TABLE_NAME,values,COLUMN_NAME_NAME + "=?",new String[]{String.valueOf(fugitivo.getName())});
         close();
     }
@@ -148,6 +153,12 @@ public class DBProvider {
         public void onCreate(SQLiteDatabase db) {
             db.execSQL(TFugitivos);
             db.execSQL(TLog);
+            db.execSQL("CREATE TRIGGER LogEliminacion Before DELETE ON " + TABLE_NAME +
+                " FOR EACH ROW " +
+                "BEGIN " +
+                "INSERT INTO " + TABLE_NAME_LOG + "(" + COLUMN_NAME_NAME + "," + COLUMN_NAME_DATE + ")" +
+                " VALUES(old.name, datetime('now')); " +
+                "END");
         }
 
 
