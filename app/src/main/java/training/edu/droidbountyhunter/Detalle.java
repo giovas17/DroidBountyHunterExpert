@@ -8,9 +8,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import training.edu.data.DBProvider;
+import training.edu.interfaces.OnTaskListener;
 import training.edu.models.Fugitivo;
+import training.edu.network.NetServices;
 
 /**
  * @author Giovani González
@@ -47,8 +53,27 @@ public class Detalle extends AppCompatActivity{
     public void OnCaptureClick(View view) {
         DBProvider database = new DBProvider(this);
         database.UpdateFugitivo(new Fugitivo(id,titulo,"1"));
+        NetServices netServices = new NetServices(new OnTaskListener() {
+            @Override
+            public void OnTaskCompleted(String response) {
+                // despues de traer los datos del web service se actualiza la interfaz...
+                String message = "";
+                try {
+                    JSONObject object = new JSONObject(response);
+                    message = object.optString("mensaje","");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                MessageClose(message);
+            }
+
+            @Override
+            public void OnTaskError(int errorCode, String message, String error) {
+                Toast.makeText(Detalle.this, "Ocurrio un problema en la comunicación con el WebService!!!", Toast.LENGTH_LONG).show();
+            }
+        });
+        netServices.execute("Atrapar", Home.UDID);
         setResult(0);
-        finish();
     }
 
     public void OnDeleteClick(View view) {
