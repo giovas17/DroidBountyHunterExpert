@@ -41,6 +41,7 @@ public class DBProvider {
 
     private static final String TLog = "CREATE TABLE " + TABLE_NAME_LOG + " (" +
             COLUMN_NAME_NAME + " TEXT, " +
+            COLUMN_NAME_STATUS + " TEXT, " +
             COLUMN_NAME_DATE + " DATE); ";
     /** --------------------------------- Variables y Helpers ----------------------------------**/
     private DBHelper helper;
@@ -82,7 +83,8 @@ public class DBProvider {
             for (dataCursor.moveToFirst() ; !dataCursor.isAfterLast() ; dataCursor.moveToNext()){
                 String name = dataCursor.getString(dataCursor.getColumnIndex(COLUMN_NAME_NAME));
                 String date = dataCursor.getString(dataCursor.getColumnIndex(COLUMN_NAME_DATE));
-                arrayList.add(new String[]{name,date});
+                String status = dataCursor.getString(dataCursor.getColumnIndex(COLUMN_NAME_STATUS));
+                arrayList.add(new String[]{name,date,status});
             }
         }
         close();
@@ -156,8 +158,8 @@ public class DBProvider {
             db.execSQL("CREATE TRIGGER LogEliminacion Before DELETE ON " + TABLE_NAME +
                 " FOR EACH ROW " +
                 "BEGIN " +
-                "INSERT INTO " + TABLE_NAME_LOG + "(" + COLUMN_NAME_NAME + "," + COLUMN_NAME_DATE + ")" +
-                " VALUES(old.name, datetime('now')); " +
+                "INSERT INTO " + TABLE_NAME_LOG + "(" + COLUMN_NAME_NAME + "," + COLUMN_NAME_DATE + "," + COLUMN_NAME_STATUS + ")" +
+                " VALUES(old.name, datetime('now'), old.status); " +
                 "END");
         }
 
