@@ -46,7 +46,7 @@ public class Detalle extends AppCompatActivity{
 
     public void OnCaptureClick(View view) {
         DBProvider database = new DBProvider(this);
-        database.UpdateFugitivo(new Fugitivo(id,titulo,String.valueOf(mode)));
+        database.UpdateFugitivo(new Fugitivo(id,titulo,"1"));
         setResult(0);
         finish();
     }

@@ -96,7 +96,7 @@ public class Home extends AppCompatActivity {
         }else if (item.getItemId() == R.id.menu_logeliminacion){
             intent = new Intent(this,LogEliminacion.class);
         }
-        startActivity(intent);
+        startActivityForResult(intent,0);
         return super.onOptionsItemSelected(item);
     }
 

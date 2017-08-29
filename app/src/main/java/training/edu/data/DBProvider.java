@@ -22,7 +22,7 @@ public class DBProvider {
     /** --------------------------------- Nombre de Base de Datos -------------------------------------**/
     private static final String DataBaseName = "DroidBountyHunterDataBase";
     /** --------------------------------- Version de Base de Datos ---------------------------------**/
-    private static final int version = 1;
+    private static final int version = 2;
     /** --------------------------------- Tablas y Campos ---------------------------------**/
     private static final String TABLE_NAME = "fugitivos";
     private static final String COLUMN_NAME_ID = "id";
@@ -118,7 +118,7 @@ public class DBProvider {
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME_NAME, fugitivo.getName());
         values.put(COLUMN_NAME_STATUS, fugitivo.getStatus());
-        database.update(TABLE_NAME,values,COLUMN_NAME_NAME + "=?",new String[]{String.valueOf(fugitivo.getId())});
+        database.update(TABLE_NAME,values,COLUMN_NAME_NAME + "=?",new String[]{String.valueOf(fugitivo.getName())});
         close();
     }
 
@@ -147,6 +147,7 @@ public class DBProvider {
         @Override
         public void onCreate(SQLiteDatabase db) {
             db.execSQL(TFugitivos);
+            db.execSQL(TLog);
         }
 
 

@@ -46,6 +46,7 @@ public class Agregar extends AppCompatActivity{
 
     public void OnWebServiceClick(View view) {
         final DBProvider database = new DBProvider(this);
+        // Se revisa si hay fugitivos en la base de datos
         if (database.ContarFugitivos() == 0){
             NetServices apiCall = new NetServices(new OnTaskListener() {
                 @Override
@@ -59,16 +60,22 @@ public class Agregar extends AppCompatActivity{
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
+                    } finally {
+                        // Despues de cargar los registros en la web en la base de datos cerraremos el activity
+                        setResult(0);
+                        finish();
                     }
                 }
 
                 @Override
                 public void OnTaskError(int errorCode, String message, String error) {
+                    // Error de servicio.
                     Toast.makeText(Agregar.this,"Ocurrió un problema con el Webservice!!", Toast.LENGTH_LONG).show();
                 }
             });
             apiCall.execute("Fugitivos");
         }else {
+            // Error de servicio.
             Toast.makeText(this,"No se puede hacer la carga remota ya que se tiene al menos un fugitivo"
                     + " en la base de datos",Toast.LENGTH_LONG).show();
         }
