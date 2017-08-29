@@ -1,6 +1,7 @@
 package training.edu.droidbountyhunter;
 
 import android.content.Intent;
+import android.provider.Settings;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -42,6 +43,8 @@ public class Home extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private Fragment[] fragments;
 
+    public static String UDID;
+
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -74,6 +77,7 @@ public class Home extends AppCompatActivity {
             }
         });
 
+        UDID = Settings.Secure.getString(getContentResolver(),Settings.Secure.ANDROID_ID);
     }
 
 

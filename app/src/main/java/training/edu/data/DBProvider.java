@@ -28,12 +28,18 @@ public class DBProvider {
     private static final String COLUMN_NAME_ID = "id";
     private static final String COLUMN_NAME_NAME = "name";
     private static final String COLUMN_NAME_STATUS = "status";
+    private static final String TABLE_NAME_LOG = "Log";
+    private static final String COLUMN_NAME_DATE = "Fecha";
     /** --------------------------------- Declaración de Tablas ----------------------------------**/
     private static final String TFugitivos = "CREATE TABLE " + TABLE_NAME + " (" +
             COLUMN_NAME_ID + " INTEGER PRIMARY KEY NOT NULL, " +
             COLUMN_NAME_NAME + " TEXT NOT NULL, " +
             COLUMN_NAME_STATUS + " INTEGER, " +
             "UNIQUE (" + COLUMN_NAME_NAME + ") ON CONFLICT REPLACE);";
+
+    private static final String TLog = "CREATE TABLE " + TABLE_NAME_LOG + " (" +
+            COLUMN_NAME_NAME + " TEXT, " +
+            COLUMN_NAME_DATE + " DATE); ";
     /** --------------------------------- Variables y Helpers ----------------------------------**/
     private DBHelper helper;
     private SQLiteDatabase database;
@@ -65,6 +71,20 @@ public class DBProvider {
         open_read();
         regreso = database.rawQuery(sql, selectionArgs);
         return regreso;
+    }
+
+    public ArrayList<String[]> ObtenerLogsEliminacion(){
+        ArrayList<String[]> arrayList = new ArrayList<>();
+        Cursor dataCursor = querySQL("SELECT * FROM " + TABLE_NAME_LOG,null);
+        if (dataCursor != null && dataCursor.getCount() > 0){
+            for (dataCursor.moveToFirst() ; !dataCursor.isAfterLast() ; dataCursor.moveToNext()){
+                String name = dataCursor.getString(dataCursor.getColumnIndex(COLUMN_NAME_NAME));
+                String date = dataCursor.getString(dataCursor.getColumnIndex(COLUMN_NAME_DATE));
+                arrayList.add(new String[]{name,date});
+            }
+        }
+        close();
+        return arrayList;
     }
 
     public ArrayList<Fugitivo> GetFugitivos(boolean fueCapturado){
@@ -108,6 +128,16 @@ public class DBProvider {
         close();
     }
 
+    public int ContarFugitivos(){
+        Cursor cursor = querySQL("SELECT " + COLUMN_NAME_ID + " FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_STATUS + "=?"
+                ,new String[]{"0"});
+        if (cursor != null){
+            return cursor.getCount();
+        }else {
+            return 0;
+        }
+    }
+
     private static class DBHelper extends SQLiteOpenHelper {
 
         public DBHelper(Context context) {
@@ -127,6 +157,7 @@ public class DBProvider {
 
             // Destruir BDD anterior y crearla nuevamente las tablas actualizadas
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_LOG);
             // Re-creando nuevamente la BDD actualizada
             onCreate(db);
         }
