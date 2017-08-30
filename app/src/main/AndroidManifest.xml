@@ -28,8 +28,8 @@
             android:label="@string/title_activity_agregar"/>
         <activity android:name=".Detalle"
             android:label="@string/title_activity_detalle"/>
-        <activity android:name=".LogEliminacion"
-            android:screenOrientation="sensorPortrait"/>
+        <activity android:name=".LogEliminacion"/>
+        <activity android:name=".DetalleLogEliminacion"/>
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.provider"
