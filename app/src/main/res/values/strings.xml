@@ -14,6 +14,8 @@
     <string name="title_activity_detalle">Detalle Fugitivo</string>
     <string name="add_webservice">Add WebService</string>
     <string name="boton_foto">Tomar Foto</string>
+    <string name="boton_agregar_xml">Add XML</string>
+    <string name="progreso">Progreso...</string>
 </resources>
 
 
