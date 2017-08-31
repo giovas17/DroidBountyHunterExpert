@@ -11,10 +11,26 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+    signingConfigs {
+        config {
+            try {
+                keyAlias 'AndroidCourse'
+                keyPassword "giovas"
+                storeFile file('DroidBountyHunterKeystore.jks')
+                storePassword "giovas"
+            } catch (ignored) {
+                throw new InvalidUserDataException("You should define KEYSTORE_PASSWORD and STORE_PASSWORD in gradle.properties.")
+            }
+        }
+    }
     buildTypes {
+        debug{
+            signingConfig signingConfigs.config
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
 }
