@@ -73,7 +73,7 @@ public class Detalle extends AppCompatActivity{
             Toast.makeText(this,"Es necesario tomar la foto antes de capturar al fugitivo",Toast.LENGTH_LONG).show();
             return;
         }
-        database.UpdateFugitivo(new Fugitivo(id,titulo,"1",pathPhoto.length() == 0 ? "" : pathPhoto));
+        database.UpdateFugitivo(new Fugitivo(id,titulo,"1",pathPhoto.length() == 0 ? "" : pathPhoto,0));
         NetServices netServices = new NetServices(new OnTaskListener() {
             @Override
             public void OnTaskCompleted(String response) {
