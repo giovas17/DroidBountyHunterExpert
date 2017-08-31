@@ -59,7 +59,7 @@ public class Agregar extends AppCompatActivity{
         TextView name = (TextView)findViewById(R.id.editTextName);
         if (name.getText().toString().length() > 0){
             DBProvider database = new DBProvider(this);
-            database.InsertFugitivo(new Fugitivo(0,name.getText().toString(),"0","",0));
+            database.InsertFugitivo(new Fugitivo(0,name.getText().toString(),"0",""));
             setResult(0);
             finish();
         }else {
@@ -82,7 +82,7 @@ public class Agregar extends AppCompatActivity{
                         for (int i = 0 ; i < array.length() ; i++){
                             JSONObject object = array.getJSONObject(i);
                             String nameFugitive = object.optString("name","");
-                            database.InsertFugitivo(new Fugitivo(0,nameFugitive,"0","",0));
+                            database.InsertFugitivo(new Fugitivo(0,nameFugitive,"0",""));
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -127,7 +127,7 @@ public class Agregar extends AppCompatActivity{
 
     void insertarFugitivo(String nameFugitivo){
         DBProvider database = new DBProvider(this);
-        database.InsertFugitivo(new Fugitivo(0,nameFugitivo,"0","",0));
+        database.InsertFugitivo(new Fugitivo(0,nameFugitivo,"0",""));
     }
 
     public void OnXMLClick(View view) {
@@ -193,7 +193,7 @@ public class Agregar extends AppCompatActivity{
             // notificacion de Fugitivos en la Base de Datos
             Toast.makeText(getApplicationContext(),
                     "No es posible solicitar carga via XML ya que se tiene al menos un fugitivo" +
-                    "en la base de datos",Toast.LENGTH_LONG).show();
+                            "en la base de datos",Toast.LENGTH_LONG).show();
         }
     }
 }

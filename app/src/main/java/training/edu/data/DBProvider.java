@@ -22,7 +22,7 @@ public class DBProvider {
     /** --------------------------------- Nombre de Base de Datos -------------------------------------**/
     private static final String DataBaseName = "DroidBountyHunterDataBase";
     /** --------------------------------- Version de Base de Datos ---------------------------------**/
-    private static final int version = 4;
+    private static final int version = 3;
     /** --------------------------------- Tablas y Campos ---------------------------------**/
     private static final String TABLE_NAME = "fugitivos";
     private static final String COLUMN_NAME_ID = "id";
@@ -31,20 +31,17 @@ public class DBProvider {
     private static final String TABLE_NAME_LOG = "Log";
     private static final String COLUMN_NAME_DATE = "Fecha";
     private static final String COLUMN_NAME_PHOTO = "photo";
-    private static final String COLUMN_NAME_NOTIFICATION = "notification";
     /** --------------------------------- Declaración de Tablas ----------------------------------**/
     private static final String TFugitivos = "CREATE TABLE " + TABLE_NAME + " (" +
             COLUMN_NAME_ID + " INTEGER PRIMARY KEY NOT NULL, " +
             COLUMN_NAME_NAME + " TEXT NOT NULL, " +
             COLUMN_NAME_PHOTO + " TEXT, " +
             COLUMN_NAME_STATUS + " INTEGER, " +
-            COLUMN_NAME_NOTIFICATION + " INTEGER, " +
             "UNIQUE (" + COLUMN_NAME_NAME + ") ON CONFLICT REPLACE);";
 
     private static final String TLog = "CREATE TABLE " + TABLE_NAME_LOG + " (" +
             COLUMN_NAME_NAME + " TEXT, " +
             COLUMN_NAME_STATUS + " TEXT, " +
-            COLUMN_NAME_NOTIFICATION + " INTEGER, " +
             COLUMN_NAME_DATE + " DATE); ";
     /** --------------------------------- Variables y Helpers ----------------------------------**/
     private DBHelper helper;
@@ -105,27 +102,7 @@ public class DBProvider {
                 String name = dataCursor.getString(dataCursor.getColumnIndex(COLUMN_NAME_NAME));
                 String status = dataCursor.getString(dataCursor.getColumnIndex(COLUMN_NAME_STATUS));
                 String photo = dataCursor.getString(dataCursor.getColumnIndex(COLUMN_NAME_PHOTO));
-                int notification = dataCursor.getInt(dataCursor.getColumnIndex(COLUMN_NAME_NOTIFICATION));
-                fugitivos.add(new Fugitivo(id,name,status,photo,notification));
-            }
-        }
-        close();
-        return fugitivos;
-    }
-
-    public ArrayList<Fugitivo> ObtenerFugitivosNotificacion(boolean fueCapturado){
-        ArrayList<Fugitivo> fugitivos = new ArrayList<>();
-        String isCapturado = fueCapturado ? "1" : "0";
-        Cursor dataCursor = querySQL("SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_STATUS
-                + "= ? ORDER BY " + COLUMN_NAME_NAME, new String[]{isCapturado});
-        if (dataCursor != null && dataCursor.getCount() > 0){
-            for (dataCursor.moveToFirst() ; !dataCursor.isAfterLast() ; dataCursor.moveToNext()){
-                int id = dataCursor.getInt(dataCursor.getColumnIndex(COLUMN_NAME_ID));
-                String name = dataCursor.getString(dataCursor.getColumnIndex(COLUMN_NAME_NAME));
-                String status = dataCursor.getString(dataCursor.getColumnIndex(COLUMN_NAME_STATUS));
-                String photo = dataCursor.getString(dataCursor.getColumnIndex(COLUMN_NAME_PHOTO));
-                int notification = dataCursor.getInt(dataCursor.getColumnIndex(COLUMN_NAME_NOTIFICATION));
-                fugitivos.add(new Fugitivo(id,name,status,photo,notification));
+                fugitivos.add(new Fugitivo(id,name,status,photo));
             }
         }
         close();
@@ -137,7 +114,6 @@ public class DBProvider {
         values.put(COLUMN_NAME_NAME, fugitivo.getName());
         values.put(COLUMN_NAME_STATUS, fugitivo.getStatus());
         values.put(COLUMN_NAME_PHOTO, fugitivo.getPhoto());
-        values.put(COLUMN_NAME_NOTIFICATION, fugitivo.getNotification());
         open();
         database.insert(TABLE_NAME,null,values);
         close();
@@ -149,18 +125,6 @@ public class DBProvider {
         values.put(COLUMN_NAME_NAME, fugitivo.getName());
         values.put(COLUMN_NAME_STATUS, fugitivo.getStatus());
         values.put(COLUMN_NAME_PHOTO, fugitivo.getPhoto());
-        values.put(COLUMN_NAME_NOTIFICATION, fugitivo.getNotification());
-        database.update(TABLE_NAME,values,COLUMN_NAME_NAME + "=?",new String[]{String.valueOf(fugitivo.getName())});
-        close();
-    }
-
-    public void UpdateLogEliminacion(Fugitivo fugitivo){
-        open();
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_NAME_NAME, fugitivo.getName());
-        values.put(COLUMN_NAME_STATUS, fugitivo.getStatus());
-        values.put(COLUMN_NAME_PHOTO, fugitivo.getPhoto());
-        values.put(COLUMN_NAME_NOTIFICATION, fugitivo.getNotification());
         database.update(TABLE_NAME,values,COLUMN_NAME_NAME + "=?",new String[]{String.valueOf(fugitivo.getName())});
         close();
     }
@@ -192,12 +156,11 @@ public class DBProvider {
             db.execSQL(TFugitivos);
             db.execSQL(TLog);
             db.execSQL("CREATE TRIGGER LogEliminacion Before DELETE ON " + TABLE_NAME +
-                " FOR EACH ROW " +
-                "BEGIN " +
-                "INSERT INTO " + TABLE_NAME_LOG + "(" + COLUMN_NAME_NAME + "," + COLUMN_NAME_DATE +
-                    "," + COLUMN_NAME_STATUS + "," + COLUMN_NAME_NOTIFICATION + ")" +
-                " VALUES(old.name, datetime('now'), old.status, old.notification); " +
-                "END");
+                    " FOR EACH ROW " +
+                    "BEGIN " +
+                    "INSERT INTO " + TABLE_NAME_LOG + "(" + COLUMN_NAME_NAME + "," + COLUMN_NAME_DATE + "," + COLUMN_NAME_STATUS + ")" +
+                    " VALUES(old.name, datetime('now'), old.status); " +
+                    "END");
         }
 
 
