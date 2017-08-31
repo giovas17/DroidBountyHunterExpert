@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-feature android:name="android.hardware.camera"/>
 
     <application
@@ -39,6 +41,13 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths"/>
         </provider>
+        <service android:name="training.edu.services.ServicioNotificaciones"/>
+        <receiver android:name="training.edu.droidbountyhunter.Receiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <category android:name="ANDROID.INTENT.CATEGORY.HOME"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

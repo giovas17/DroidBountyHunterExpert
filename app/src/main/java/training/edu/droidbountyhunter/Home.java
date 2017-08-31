@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import training.edu.data.DBProvider;
 import training.edu.fragment.About;
 import training.edu.models.Fugitivo;
+import training.edu.services.ServicioNotificaciones;
 
 public class Home extends AppCompatActivity {
 
@@ -78,6 +79,10 @@ public class Home extends AppCompatActivity {
         });
 
         UDID = Settings.Secure.getString(getContentResolver(),Settings.Secure.ANDROID_ID);
+
+        if (!ServicioNotificaciones.isRunning()){
+            startService(new Intent(this,ServicioNotificaciones.class));
+        }
     }
 
 
