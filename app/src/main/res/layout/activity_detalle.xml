@@ -1,49 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center|top"
-    android:padding="@dimen/activity_horizontal_margin">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/mensajeText"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-        android:text="Mensaje..."/>
+        android:gravity="center|top"
+        android:padding="@dimen/activity_horizontal_margin">
 
-    <ImageView
-        android:id="@+id/pictureFugitive"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:maxHeight="200dp"
-        android:maxWidth="200dp"
-        android:minWidth="200dp"
-        android:minHeight="200dp"
-        android:src="@android:drawable/ic_menu_gallery"/>
+        <TextView
+            android:id="@+id/mensajeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:text="Mensaje..."/>
 
-    <Button
-        android:id="@+id/buttonCapturar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/boton_capturar"
-        android:onClick="OnCaptureClick"/>
+        <ImageView
+            android:id="@+id/pictureFugitive"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:maxHeight="200dp"
+            android:maxWidth="200dp"
+            android:minWidth="200dp"
+            android:minHeight="200dp"
+            android:src="@android:drawable/ic_menu_gallery"/>
 
-    <Button
-        android:id="@+id/buttonEliminar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/boton_eliminar"
-        android:onClick="OnDeleteClick"/>
+        <Button
+            android:id="@+id/buttonCapturar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/boton_capturar"
+            android:onClick="OnCaptureClick"/>
 
-    <Button
-        android:id="@+id/buttonPhoto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/boton_foto"
-        android:onClick="OnFotoClick"/>
+        <Button
+            android:id="@+id/buttonEliminar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/boton_eliminar"
+            android:onClick="OnDeleteClick"/>
 
-</LinearLayout>
+        <Button
+            android:id="@+id/buttonPhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/boton_foto"
+            android:onClick="OnFotoClick"/>
+
+        <Button
+            android:id="@+id/btnOpenGL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_OpenGL"
+            android:onClick="onOpenGLClick"/>
+
+        <EditText
+            android:id="@+id/txtDistorsion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"
+            android:hint="@string/distorsion"
+            android:ems="10"
+            android:maxLength="10"
+            android:maxWidth="150dp"
+            android:minWidth="150dp"/>
+
+        <CheckBox
+            android:id="@+id/cbDefault"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:text="Imagen default"/>
+
+    </LinearLayout>
+
+</ScrollView>

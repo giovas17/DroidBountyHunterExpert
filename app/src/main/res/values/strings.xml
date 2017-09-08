@@ -16,6 +16,8 @@
     <string name="boton_foto">Tomar Foto</string>
     <string name="boton_agregar_xml">Add XML</string>
     <string name="progreso">Progreso...</string>
+    <string name="btn_OpenGL">Foto OpenGL</string>
+    <string name="distorsion">Distorcion</string>
 </resources>
 
 

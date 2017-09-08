@@ -11,6 +11,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +40,11 @@ public class Detalle extends AppCompatActivity{
     private int id;
     private Uri pathImage;
     private static final int REQUEST_CODE_PHOTO_IMAGE = 1787;
+    private String foto;
+
+    private Button openGL;
+    private EditText edit;
+    private CheckBox checkBox;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,9 +57,16 @@ public class Detalle extends AppCompatActivity{
         // Se pone el nombre del fugitivo como titulo
         setTitle(titulo + " - [" + id + "]");
         TextView message = (TextView) findViewById(R.id.mensajeText);
+        openGL = (Button) findViewById(R.id.btnOpenGL);
+        edit = (EditText) findViewById(R.id.txtDistorsion);
+        checkBox = (CheckBox) findViewById(R.id.cbDefault);
+
         // Se identifica si es Fugitivo o Capturado para el mensaje...
         if (mode == 0){
             message.setText("El fugitivo sigue suelto...");
+            openGL.setVisibility(View.GONE);
+            edit.setVisibility(View.GONE);
+            checkBox.setVisibility(View.GONE);
         }else {
             Button delete = (Button)findViewById(R.id.buttonEliminar);
             delete.setVisibility(View.GONE);
@@ -62,6 +76,7 @@ public class Detalle extends AppCompatActivity{
             if (pathPhoto != null && pathPhoto.length() > 0){
                 Bitmap bitmap = PictureTools.decodeSampledBitmapFromUri(pathPhoto,200,200);
                 photoImageView.setImageBitmap(bitmap);
+                foto = pathPhoto;
             }
         }
     }
@@ -94,6 +109,9 @@ public class Detalle extends AppCompatActivity{
             }
         });
         netServices.execute("Atrapar", Home.UDID);
+        openGL.setVisibility(View.VISIBLE);
+        edit.setVisibility(View.VISIBLE);
+        checkBox.setVisibility(View.VISIBLE);
         setResult(0);
     }
 
@@ -141,6 +159,28 @@ public class Detalle extends AppCompatActivity{
                 Bitmap bitmap = PictureTools.decodeSampledBitmapFromUri(PictureTools.currentPhotoPath,200,200);
                 imageFugitive.setImageBitmap(bitmap);
             }
+        }
+    }
+
+    public void onOpenGLClick(View view) {
+        String texto = edit.getText().toString();
+        String checkDefault = "0";
+        if (checkBox.isChecked()){
+            checkDefault = "1";
+        }
+        try {
+            float textoFloat = Float.parseFloat(texto);
+            if (textoFloat < 0.0f){
+                Toast.makeText(this,"Entrada erronea, debe ser número flotante positivo.",Toast.LENGTH_LONG).show();
+                return;
+            }
+            Intent intent = new Intent(this, ActivityOpenGLFugitivos.class);
+            intent.putExtra("foto",foto);
+            intent.putExtra("distosion",texto);
+            intent.putExtra("default",checkDefault);
+            startActivity(intent);
+        }catch (Exception e){
+            Toast.makeText(this,"Entrada erronea debe ser un numero flotante.",Toast.LENGTH_LONG).show();
         }
     }
 }
