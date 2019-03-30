@@ -1,35 +1,35 @@
 {
   "project_info": {
-    "project_number": "738520896711",
-    "firebase_url": "https://droidbountyhunter-a5341.firebaseio.com",
-    "project_id": "droidbountyhunter-a5341",
-    "storage_bucket": "droidbountyhunter-a5341.appspot.com"
+    "project_number": "817420578291",
+    "firebase_url": "https://droidbountyhunter-75679.firebaseio.com",
+    "project_id": "droidbountyhunter-75679",
+    "storage_bucket": "droidbountyhunter-75679.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:738520896711:android:c1eb1222c330f5e1",
+        "mobilesdk_app_id": "1:817420578291:android:c1eb1222c330f5e1",
         "android_client_info": {
           "package_name": "training.edu.droidbountyhunter"
         }
       },
       "oauth_client": [
         {
-          "client_id": "738520896711-1rubfhen7onm8af4smgma6d6q3f7op1r.apps.googleusercontent.com",
+          "client_id": "817420578291-d2arcbhk0nq3o3mr9h7nuu0u0sibo498.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "training.edu.droidbountyhunter",
-            "certificate_hash": "1a50851af8967612f03411c07ead77cee09cc685"
+            "certificate_hash": "7ea3ec8fbb966e704b03d54fc9f19df3c96a1b0c"
           }
         },
         {
-          "client_id": "738520896711-m7461gv3jubmkbn552m3g8519i34au5o.apps.googleusercontent.com",
+          "client_id": "817420578291-qk131h73902e61c3vqf32fslne5d8rf4.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDSPF-PWhJs6tK9iXeZ0wHRoOavMjJQ6l4"
+          "current_key": "AIzaSyAYLrKD4RwpVLp_sdfm1yooit7HWhMU9XY"
         }
       ],
       "services": {
@@ -40,7 +40,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "738520896711-m7461gv3jubmkbn552m3g8519i34au5o.apps.googleusercontent.com",
+              "client_id": "817420578291-qk131h73902e61c3vqf32fslne5d8rf4.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
